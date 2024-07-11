@@ -1,0 +1,51 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import articles from './article-content';
+
+const AddArticlePage = () => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newArticle = {
+      name: title.toLowerCase().replace(/ /g, '-'),
+      title,
+      content: content.split('\n'),
+    };
+    articles.push(newArticle); // This is a simple way to add articles but not ideal for a real app
+    navigate('/articles');
+  };
+
+  return (
+    <div className="container">
+      <h1>Add a New Article</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="content">Content:</label>
+          <textarea
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            rows="10"
+            required
+          ></textarea>
+        </div>
+        <button type="submit">Add Article</button>
+      </form>
+    </div>
+  );
+};
+
+export default AddArticlePage;
